@@ -51,6 +51,12 @@ public class Empresa {
         float descuento;
         float importeNeto;
         int pos;
+        int annoSig=fhoy.getAnno();
+        int mesSig=fhoy.getMes()+1;
+        if(mesSig>11){
+            annoSig++;
+            mesSig=0;
+        }
         System.out.println("\t\t\t\tINFORME DE FACTURAS");
         System.out.println("Fecha:" + fhoy.fechaCompletaLetra());
         System.out.println("CIF \t NOMBRE\t FECHA FACTURA\t"
@@ -63,22 +69,25 @@ public class Empresa {
                 descuento = clientes[ncli].getImporte()
                         * descuentos[pos].getDescuento();
             }
-            importeNeto=clientes[ncli].getImporte()-descuento;
+            importeNeto = clientes[ncli].getImporte() - descuento;
             Fecha vencimiento = new Fecha(
                     clientes[ncli].getFechaFra().getDia(),
                     clientes[ncli].getFechaFra().getMes(),
                     clientes[ncli].getFechaFra().getAnno());
 
             vencimiento.calcularVencimiento(clientes[ncli].getDiasVen());
+            if (importeNeto > 10000 &&
+                    vencimiento.getMes()==mesSig && 
+                    vencimiento.getAnno()==annoSig) {
+                System.out.print(clientes[ncli].getCif());
+                System.out.print("\t" + clientes[ncli].getNombre());
+                System.out.print("\t"
+                        + clientes[ncli].getFechaFra().fechaCompleta());
 
-            System.out.print(clientes[ncli].getCif());
-            System.out.print("\t" + clientes[ncli].getNombre());
-            System.out.print("\t"
-                    + clientes[ncli].getFechaFra().fechaCompleta());
-
-            System.out.print("\t" + clientes[ncli].getImporte());
-            System.out.print("\t\t" + vencimiento.fechaCompleta());
-            System.out.println("\t"+ importeNeto);
+                System.out.print("\t" + clientes[ncli].getImporte());
+                System.out.print("\t\t" + vencimiento.fechaCompleta());
+                System.out.println("\t" + importeNeto);
+            }
 
         }
     }
